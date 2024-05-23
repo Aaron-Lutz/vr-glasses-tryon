@@ -56,7 +56,7 @@ function updateGlasses(detections) {
         const glassesWidth = width * 1.0;  // Adjusted width multiplier to make smaller
         const glassesHeight = glassesWidth / 2;  // Uniform scaling to maintain aspect ratio
         const glassesX = x - (glassesWidth - width) / 2;
-        const glassesY = y - height * 0.5;  // Adjusted height to lower the glasses
+        const glassesY = y - height * 0.1;  // Adjusted height to lower the glasses
 
         glasses.style.width = `${glassesWidth}px`;
         glasses.style.height = `${glassesHeight}px`;
