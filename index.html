@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Glasses Try-On</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #app {
+            text-align: center;
+            position: relative;
+        }
+        #video {
+            border: 2px solid #000;
+            width: 640px;
+            height: 480px;
+        }
+        #glasses {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+    </style>
+    <!-- Include face-api.js from CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Try On VR Glasses</h1>
+        <video id="video" autoplay muted></video>
+        <img id="glasses" src="glasses.webp" alt="Glasses">
+    </div>
+</body>
+</html>
