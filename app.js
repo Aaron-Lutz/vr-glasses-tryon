@@ -1,6 +1,7 @@
 // Select the video element and the glasses image
 const video = document.getElementById('video');
 const glasses = document.getElementById('glasses');
+const overlay = document.getElementById('overlay');
 
 // Load face-api.js models
 Promise.all([
@@ -32,9 +33,10 @@ function runFaceDetection() {
         existingCanvas.remove();
     }
 
+    // Create and add a new canvas
     const canvas = faceapi.createCanvasFromMedia(video);
     canvas.id = 'overlay';
-    document.body.append(canvas);
+    document.getElementById('content').append(canvas);
     const displaySize = { width: video.width, height: video.height };
     faceapi.matchDimensions(canvas, displaySize);
 
@@ -56,7 +58,7 @@ function updateGlasses(detections) {
         const glassesWidth = width * 1.0;  // Adjusted width multiplier to make smaller
         const glassesHeight = glassesWidth / 2;  // Uniform scaling to maintain aspect ratio
         const glassesX = x - (glassesWidth - width) / 2;
-        const glassesY = y - height * 0.1;  // Adjusted height to lower the glasses
+        const glassesY = y - height * 0;  // Adjusted height to lower the glasses
 
         glasses.style.width = `${glassesWidth}px`;
         glasses.style.height = `${glassesHeight}px`;
