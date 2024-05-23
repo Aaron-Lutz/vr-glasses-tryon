@@ -12,6 +12,7 @@
             height: 100vh;
             width: 100vw;
             background-color: #f0f0f0;
+            text-align: center;
         }
         #app {
             text-align: center;
@@ -25,6 +26,8 @@
         }
         #logo {
             height: 50px;
+            width: 50px;
+            margin: auto;
         }
         #glasses {
             position: absolute;
@@ -38,11 +41,11 @@
     <script defer src="app.js"></script>
 </head>
 <body>
-    <div id="app">
-        <img id="logo" src="logo.jpg" alt="logo">
-        <h1>FOCUS AI Try-On</h1>
-        <video id="video" autoplay muted></video>
-        <img id="glasses" src="glasses.webp" alt="Glasses">
-    </div>
+    <img id="logo" src="logo.jpg" alt="logo">
+    <h1>FOCUS AI Try-On</h1>
+        <div id="app">
+            <video id="video" autoplay muted></video>
+            <img id="glasses" src="glasses.webp" alt="Glasses">
+        </div>
 </body>
 </html>
