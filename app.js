@@ -26,6 +26,12 @@ function startVideo() {
 
 // Function to run face detection
 function runFaceDetection() {
+    // Remove any existing canvas
+    const existingCanvas = document.getElementById('overlay');
+    if (existingCanvas) {
+        existingCanvas.remove();
+    }
+
     const canvas = faceapi.createCanvasFromMedia(video);
     canvas.id = 'overlay';
     document.body.append(canvas);
@@ -34,7 +40,8 @@ function runFaceDetection() {
     setInterval(async () => {
         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
-        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
         faceapi.draw.drawDetections(canvas, resizedDetections);
         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
         updateGlasses(resizedDetections);
@@ -45,10 +52,10 @@ function runFaceDetection() {
 function updateGlasses(detections) {
     if (detections.length > 0) {
         const { x, y, width, height } = detections[0].alignedRect.box;
-        const glassesWidth = width * 1.5;
-        const glassesHeight = glassesWidth / 2;
+        const glassesWidth = width * 1.1;  // Adjusted width multiplier
+        const glassesHeight = glassesWidth / 2.5;  // Adjusted height to fit better
         const glassesX = x - (glassesWidth - width) / 2;
-        const glassesY = y + height / 4;
+        const glassesY = y - height * 0.2;  // Adjusted height to lower the glasses
 
         glasses.style.width = `${glassesWidth}px`;
         glasses.style.height = `${glassesHeight}px`;
