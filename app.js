@@ -4,8 +4,8 @@ const glasses = document.getElementById('glasses');
 
 // Load face-api.js models
 Promise.all([
-    faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('/models')
+    faceapi.nets.tinyFaceDetector.loadFromUri('https://aaron-lutz.github.io/vr-glasses-tryon/models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('https://aaron-lutz.github.io/vr-glasses-tryon/models')
 ]).then(startVideo);
 
 // Start the video stream
