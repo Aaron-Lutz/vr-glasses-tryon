@@ -13,15 +13,35 @@ function startVideo() {
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
             video.srcObject = stream;
+            video.addEventListener('loadeddata', () => {
+                video.width = video.videoWidth;
+                video.height = video.videoHeight;
+                runFaceDetection();
+            });
         })
         .catch(error => {
             console.error("Error accessing the webcam: ", error);
         });
 }
 
+// Function to run face detection
+function runFaceDetection() {
+    const canvas = faceapi.createCanvasFromMedia(video);
+    document.body.append(canvas);
+    const displaySize = { width: video.width, height: video.height };
+    faceapi.matchDimensions(canvas, displaySize);
+    setInterval(async () => {
+        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        faceapi.draw.drawDetections(canvas, resizedDetections);
+        faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+        updateGlasses(resizedDetections);
+    }, 100);
+}
+
 // Function to update the glasses position
-async function updateGlasses() {
-    const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+function updateGlasses(detections) {
     if (detections.length > 0) {
         const { x, y, width, height } = detections[0].alignedRect.box;
         const glassesWidth = width * 1.5;
@@ -39,18 +59,9 @@ async function updateGlasses() {
     }
 }
 
-// Update the glasses position when the video is playing
+// Add event listener to start the face detection when the video is playing
 video.addEventListener('play', () => {
-    const canvas = faceapi.createCanvasFromMedia(video);
-    document.body.append(canvas);
-    const displaySize = { width: video.width, height: video.height };
-    faceapi.matchDimensions(canvas, displaySize);
-    setInterval(async () => {
-        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
-        const resizedDetections = faceapi.resizeResults(detections, displaySize);
-        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        faceapi.draw.drawDetections(canvas, resizedDetections);
-        faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-        updateGlasses();
-    }, 100);
+    video.width = video.videoWidth;
+    video.height = video.videoHeight;
+    runFaceDetection();
 });
