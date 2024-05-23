@@ -27,6 +27,7 @@ function startVideo() {
 // Function to run face detection
 function runFaceDetection() {
     const canvas = faceapi.createCanvasFromMedia(video);
+    canvas.id = 'overlay';
     document.body.append(canvas);
     const displaySize = { width: video.width, height: video.height };
     faceapi.matchDimensions(canvas, displaySize);
